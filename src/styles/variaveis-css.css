@@ -1,0 +1,34 @@
+:root {
+  /* Escala completa — do mais escuro ao mais claro */
+  --purple-950: #0D0A12; /* fundo base / navbar */
+  --purple-900: #2A1633; /* fundo secundário */
+  --purple-800: #4A2571; /* fundo médio-escuro */
+  --purple-700: #6B339E; /* transição / bordas */
+  --purple-600: #8A3DC5; /* destaque médio */
+  --purple-500: #A94EE1; /* primária vibrante (CTA, links, logo) */
+  --purple-400: #C26AED; /* hover states, ícones */
+  --purple-300: #D88AF6; /* destaques claros */
+  --purple-200: #EDB0FA; /* texto secundário sobre fundo escuro */
+  --purple-100: #F7E6FF; /* texto claro / whites suavizados */
+ 
+  /* Aliases semânticos — usar estes nos componentes sempre que possível */
+  --color-bg-base: var(--purple-950);
+  --color-bg-elevated: var(--purple-900);
+  --color-bg-gradient-start: var(--purple-950);
+  --color-bg-gradient-mid: var(--purple-800);
+  --color-bg-gradient-end: var(--purple-700);
+ 
+  --color-primary: var(--purple-500);
+  --color-primary-hover: var(--purple-400);
+  --color-accent: var(--purple-600);
+ 
+  --color-text-primary: var(--purple-100);
+  --color-text-secondary: var(--purple-200);
+  --color-text-muted: var(--purple-300);
+ 
+  --color-border: var(--purple-700);
+  --color-border-light: var(--purple-400);
+ 
+  /* Overlay para navbar com leve transparência sobre o fundo escuro */
+  --color-navbar-bg: rgba(13, 10, 18, 0.85); /* purple-950 com alpha */
+}
