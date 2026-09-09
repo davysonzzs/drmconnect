@@ -7,6 +7,7 @@ import "./../styles/home.css"
 import { buscarImagem } from "../services/sercheAvatar";
 import PostComunidade from "../components/PostComunidade";
 import PostRespostas from "../components/PostRespostas";
+import AcoesPost from "../components/AcoesPost";
 import Sidebar from "../layout/Sidebar"
 
 /* ESSA É A PAGINA DE COMUNIDADE */
@@ -211,7 +212,7 @@ export default function Home(){
           <div key={index} className="perguntas-home">
             <div className="postContainer">
               <PostComunidade user={item.user} titulo={item.titulo} conteudo={item.description} imgs={item.imagens} avatar={item.avatar}/> <br />
-              <PostRespostas id={item.id} curtida={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
+              <AcoesPost idP={item.id} quantidadeDeCurtidas={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
             </div> 
           </div>
         ))}

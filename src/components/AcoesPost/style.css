@@ -1,0 +1,23 @@
+.acoes{
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    width: 100%;
+    margin: 10px;
+}
+
+.btn-curtida {
+  background: none;
+  border: none;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.btn-report{
+  background: none;
+  border: none;
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+}
