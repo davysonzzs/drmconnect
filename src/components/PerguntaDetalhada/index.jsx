@@ -1,6 +1,6 @@
 import "./style.css"
 
-export default function PerguntaDetalhada({ user, user_avatar, titulo, descricao}){
+export default function PerguntaDetalhada({ user, user_avatar, descricao, img}){
     return(
         <div className="post-card-detalhado">
             <div className="usuario-info">
@@ -8,8 +8,10 @@ export default function PerguntaDetalhada({ user, user_avatar, titulo, descricao
                 <p><span>{user}</span></p>
                 </div>
             <div className="post-info">
-                <h1>{titulo}</h1>
                 <p><span>{descricao}</span></p>
+                { img ? (
+                    <img src={img} alt="" />
+                ) : ( <span></span> ) }
             </div>
         </div>
     )

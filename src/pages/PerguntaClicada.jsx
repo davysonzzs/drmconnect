@@ -21,17 +21,16 @@ export default function PerguntaClicada(){
         setCarregando(true)
         // aq ele puxa somente a pergunta
         const resPergunta = await supabase
-        .from("perguntas")
+        .from("posts")
         .select('*')
         .eq('id', id)
         .single()
 
         //aq ele puxa todas as respostas dessa pergunta
         const resRespostas = await supabase
-        .from("respostas")
+        .from("post_respostas")
         .select('*')
-        .eq("id_pergunta", id)
-        .order("create_at", {ascending: false})
+        .eq("id_post", id)
 
         if(resPergunta.error) return console.error(resPergunta.error.message);
         if(resRespostas.error) return console.error(resRespostas.error.message);
@@ -49,7 +48,7 @@ export default function PerguntaClicada(){
     return(
         <div className="pergunta-tudo">
             <div className="pergunta">
-                <PerguntaDetalhada user={pergunta.user_nome} user_avatar={pergunta.user_avatar} titulo={pergunta.titulo} descricao={pergunta.descricao} />
+                <PerguntaDetalhada user={pergunta.user} user_avatar={pergunta.avatar} descricao={pergunta.description} img={pergunta.imagens}/>
             </div>
             <div className="respostas">
                 <RespostasPergunta respostas={respostas} funcaoDeAtualizar={carregarDados} id={id}/>

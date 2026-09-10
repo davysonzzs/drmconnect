@@ -94,7 +94,7 @@ export default function App(){
             <CriarPergunta />
           </PrivateRoute>
         } />        
-        <Route path="/perguntas/:id" element={
+        <Route path="/feed/:id" element={
           <PrivateRoute user={user} loading={loading}>
             <PerguntaClicada />
           </PrivateRoute>

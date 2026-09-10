@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, use } from "react";
 import { supabase } from "../supabase/supabase";
 import { envImagensStorage } from "../services/uploadImages";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import iconImagem from "./../assets/iconImagem.png"
 import "./../styles/home.css"
 import { buscarImagem } from "../services/sercheAvatar";
@@ -211,7 +211,11 @@ export default function Home(){
         {posts.map((item, index) =>(
           <div key={index} className="perguntas-home">
             <div className="postContainer">
+              <Link 
+              to={`/feed/${item.id}`}
+              key={item.id}>
               <PostComunidade user={item.user} titulo={item.titulo} conteudo={item.description} imgs={item.imagens} avatar={item.avatar}/> <br />
+              </Link>
               <AcoesPost idP={item.id} quantidadeDeCurtidas={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
             </div> 
           </div>
