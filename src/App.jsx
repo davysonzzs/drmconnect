@@ -83,17 +83,7 @@ export default function App(){
           <PrivateRoute user={user} loading={loading}>
             <FeedBack />
           </PrivateRoute>
-        }/>
-        <Route path="/perguntas" element={
-          <PrivateRoute user={user} loading={loading}>
-            <AjudaDrm />
-          </PrivateRoute>
-        }/>
-        <Route path="/criarpergunta" element={
-          <PrivateRoute user={user} loading={loading}>
-            <CriarPergunta />
-          </PrivateRoute>
-        } />        
+        }/>     
         <Route path="/feed/:id" element={
           <PrivateRoute user={user} loading={loading}>
             <PerguntaClicada />
