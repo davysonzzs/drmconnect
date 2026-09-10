@@ -6,9 +6,9 @@ import iconImagem from "./../assets/iconImagem.png"
 import "./../styles/home.css"
 import { buscarImagem } from "../services/sercheAvatar";
 import PostComunidade from "../components/PostComunidade";
-import PostRespostas from "../components/PostRespostas";
 import AcoesPost from "../components/AcoesPost";
 import Sidebar from "../layout/Sidebar"
+import Navbar from "../layout/Navbar";
 
 /* ESSA É A PAGINA DE COMUNIDADE */
 export default function Home(){
@@ -191,7 +191,7 @@ export default function Home(){
 
   return(
     <div className='tudo-comunidade'>
-      <Sidebar />
+      <Navbar />
 
       <div className="posts">
         <div className="form-post">

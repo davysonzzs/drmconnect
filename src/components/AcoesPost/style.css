@@ -1,23 +1,37 @@
-.acoes{
-    display: flex;
-    justify-content: flex-start;
-    align-items: start;
-    width: 100%;
-    margin: 10px;
+/* ===== AÇÕES DO POST ===== */
+.acoes {
+  display: flex;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--purple-800);
+  margin-top: 12px;
 }
 
-.btn-curtida {
+.btn-curtida,
+.btn-report {
   background: none;
   border: none;
-  width: fit-content;
-  height: fit-content;
+  color: #999;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  padding: 0;
 }
 
-.btn-report{
-  background: none;
-  border: none;
-  width: fit-content;
-  height: fit-content;
-  cursor: pointer;
+.btn-curtida:hover,
+.btn-report:hover {
+  color: var(--purple-400);
+}
+
+.btn-curtida span {
+  font-size: 14px;
+}
+
+.btn-report svg {
+  width: 18px;
+  height: 18px;
 }

@@ -9,8 +9,6 @@ import PaginaDeUsuario from "./pages/PaginaDeUsuario";
 import FeedBack from "./pages/FeedBack";
 import ResetSenha from "./pages/ResetSenha";
 import PerguntaClicada from "./pages/PerguntaClicada";
-import AjudaDrm from "./pages/AjudaDrm";
-import CriarPergunta from "./pages/CriarPergunta";
 import Inicial from "./pages/Inicial";
 import TermosDeUso from "./pages/TermosDeUso";
 

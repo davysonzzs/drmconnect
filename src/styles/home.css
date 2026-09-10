@@ -1,169 +1,479 @@
+/* ===== PALETA ROXO ===== */
+:root {
+  --purple-950: #0D0A12;
+  --purple-900: #2A1633;
+  --purple-800: #4A2571;
+  --purple-700: #6B339E;
+  --purple-600: #8A3DC5;
+  --purple-500: #A94EE1;
+  --purple-400: #C26AED;
+  --purple-300: #D88AF6;
+  --purple-200: #EDB0FA;
+  --purple-100: #F7E6FF;
+}
+
+/* ===== CONTAINER GERAL ===== */
 .tudo-comunidade {
-  display: flex;
   width: 100vw;
-  min-height: 100vh; 
-  background: url("./../assets/background/backgroundGeral.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  min-height: 100vh;
+  background: var(--purple-950);
 }
 
-.tudo-comunidade > :first-child {
-  position: fixed;
-  top: 0;
-  left: 0;
-  flex-shrink: 0;
-}
-
+/* ===== POSTS CONTAINER (REDDIT STYLE CENTRALIZADO) ===== */
 .posts {
-  margin-left: 150px;
+  margin: 0 auto;
   flex: 1;
-  padding: 20px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   scroll-behavior: smooth;
   overflow: visible;
+  max-width: 700px;
+  width: 100%;
 }
 
+/* ===== FORM DE CRIAR POST (REDDIT STYLE) ===== */
 .form-post {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 600px;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(6px);
+  background: var(--purple-900);
+  border: 1px solid var(--purple-800);
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
 }
 
 .form-text {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
+/* Avatar no form */
 .form-text img {
-  width: 120px;
-  height: 120px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--purple-700);
+  flex-shrink: 0;
 }
 
+/* Textarea */
 .form-text > textarea {
-  width: 500px;
-  border: none;
-  border-radius: 10px;
+  flex: 1;
+  border: 1px solid var(--purple-800);
+  border-radius: 4px;
   resize: none;
-  padding: 10px;
+  padding: 12px;
   outline: none;
-  max-height: 120px;
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
+  max-height: 50px;
+  background: var(--purple-950);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  transition: border 0.2s ease;
 }
 
+.form-text > textarea:focus {
+  border-color: var(--purple-600);
+  color: #fff;
+}
+
+.form-text > textarea::placeholder {
+  color: #666;
+}
+
+/* Envio de post */
 .form-envio {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  gap: 8px;
+  padding: 0 4px;
 }
 
+/* Ícone de imagem */
 .form-envio label img {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: opacity 0.2s ease;
+  opacity: 0.6;
 }
 
 .form-envio label img:hover {
-  transform: scale(1.1);
+  opacity: 1;
 }
 
+/* Botão Postar */
 .form-envio button {
-  background: #6c63ff;
+  background: var(--purple-600);
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 6px 16px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: 0.2s;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 0.2s ease;
 }
 
 .form-envio button:hover {
-  transform: scale(1.05);
-  background: #5750e6;
+  background: var(--purple-500);
 }
 
+.form-envio button:active {
+  opacity: 0.9;
+}
+
+/* ===== POSTS CARDS (REDDIT STYLE) ===== */
 .perguntas-home {
   width: 100%;
-  max-width: 800px;
-  margin-top: 15px;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 10px;
-  border-radius: 10px;
-  transition: 0.2s;
+  background: transparent;
+  border: 1px solid var(--purple-800);
+  border-radius: 4px;
+  margin-bottom: 12px;
+  padding: 16px;
+  transition: border 0.2s ease, background 0.2s ease;
+  overflow: hidden;
 }
 
 .perguntas-home:hover {
-  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--purple-700);
+  background: rgba(42, 22, 51, 0.4);
 }
 
-.modalReport{
+.postContainer {
+  cursor: pointer;
+  display: block;
+}
+
+.postContainer a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* ===== MODAL DE DENÚNCIA (REDDIT STYLE) ===== */
+.modalReport {
   left: 0;
   top: 0;
   position: fixed;
-  z-index: 10;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.39); 
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.2s ease-in;
 }
 
-.prinReport{
-  text-align: center;
-  background-color: black;
-  border-radius: 30px;
-  padding: 50px;
-  margin: 10px;
-  animation: op 0.2s ease-in;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.prinReport > button{
-  background: #6c63ff;
+.modalReport h1 {
+  color: var(--purple-300);
+  position: absolute;
+  top: 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.prinReport {
+  background: var(--purple-900);
+  border: 1px solid var(--purple-800);
+  border-radius: 4px;
+  padding: 24px;
+  max-width: 360px;
+  width: 90%;
+}
+
+/* Textarea da denúncia */
+.prinReport > textarea {
+  width: 100%;
+  margin: 24px 0;
+  padding: 10px;
+  border: 1px solid var(--purple-800);
+  border-radius: 4px;
+  background-color: var(--purple-950);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.prinReport > textarea:focus {
+  border-color: var(--purple-600);
+  outline: none;
+}
+
+.prinReport > textarea::placeholder {
+  color: #666;
+}
+
+/* Botões da denúncia */
+.prinReport > button {
+  background: var(--purple-600);
   color: white;
   border: none;
-  padding: 9px 12px;
-  border-radius: 10px;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: 0.2s;
-  margin: 5px;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 0.2s ease;
+  margin: 6px 4px;
 }
 
-.prinReport > textarea{
-  margin: 31px;
-  padding: 15px 15px;
-  border: white;
-  border-radius: 10px;
-  width: 350px;
-  background-color: #060f1e;
+.prinReport > button:hover {
+  background: var(--purple-500);
 }
 
-@media (max-width: 768px){
-  .posts{
-    margin-left: 0;
-    
+.prinReport > button:active {
+  opacity: 0.9;
+}
+
+/* ===== BOTÃO CARREGAR MAIS ===== */
+.posts > button {
+  background: var(--purple-600);
+  color: white;
+  border: 1px solid var(--purple-600);
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  margin-top: 16px;
+  transition: all 0.2s ease;
+}
+
+.posts > button:hover {
+  background: var(--purple-500);
+  border-color: var(--purple-500);
+}
+
+.posts > button:active {
+  opacity: 0.9;
+}
+
+/* ===== LOADING TEXT ===== */
+.posts > p {
+  color: #999;
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+/* ===== POST COMUNIDADE (COMPONENTE) ===== */
+.content-post {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.cabeca-post {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #bbb;
+  width: 100%;
+}
+
+.cabeca-post img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.cabeca-post span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.corpo-post {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.corpo-post img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  object-fit: contain;
+  background: var(--purple-950);
+  display: block;
+}
+
+/* Título do post se existir */
+.corpo-post h2,
+.corpo-post h3,
+.corpo-post h1 {
+  color: var(--purple-300);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Descrição do post */
+.corpo-post p,
+.corpo-post span {
+  color: #ccc;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .posts {
+    padding: 12px 16px;
   }
-  .form-post{
-    width: 80%;
+
+  .form-post {
+    padding: 10px;
   }
-  .form-text textarea{
-    width: 80%;
+
+  .form-text {
+    gap: 10px;
+  }
+
+  .form-text img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .form-text > textarea {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .perguntas-home {
+    padding: 10px;
+    margin-bottom: 6px;
+  }
+
+  .postContainer {
+    padding: 10px;
+  }
+
+  .form-envio button {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  .prinReport {
+    padding: 20px;
+    width: 85vw;
+  }
+
+  .prinReport > textarea {
+    min-height: 80px;
+    font-size: 12px;
+  }
+
+  .prinReport > button {
+    padding: 7px 14px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .posts {
+    padding: 8px 12px;
+  }
+
+  .form-post {
+    padding: 8px;
+    margin-bottom: 12px;
+  }
+
+  .form-text {
+    gap: 8px;
+  }
+
+  .form-text img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .form-text > textarea {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  .form-envio {
+    padding: 0 2px;
+  }
+
+  .form-envio label img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .form-envio button {
+    padding: 5px 12px;
+    font-size: 11px;
+  }
+
+  .perguntas-home {
+    padding: 8px;
+    margin-bottom: 4px;
+    border-radius: 3px;
+  }
+
+  .postContainer {
+    padding: 8px;
+  }
+
+  .corpo-post p,
+  .corpo-post span {
+    font-size: 14px;
+  }
+
+  .cabeca-post {
+    font-size: 12px;
+  }
+
+  .prinReport {
+    padding: 16px;
+    width: 90vw;
+  }
+
+  .prinReport > textarea {
+    min-height: 60px;
+    margin: 16px 0;
+    font-size: 11px;
+  }
+
+  .prinReport > button {
+    padding: 6px 12px;
+    font-size: 11px;
+    margin: 4px 2px;
+  }
+
+  .posts > button {
+    padding: 6px 16px;
+    font-size: 12px;
+    margin-top: 12px;
   }
 }
