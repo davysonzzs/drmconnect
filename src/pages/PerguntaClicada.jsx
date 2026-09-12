@@ -1,58 +1,128 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../supabase/supabase";
+import NavBar from "./../layout/Navbar"
 import PerguntaDetalhada from "../components/PerguntaDetalhada";
 import RespostasPergunta from "../components/RespostasPergunta";
 import "../styles/perguntaClicada.css"
-/* ESSA A PAGINA PARA QUANDO O USUARIO CLICAR EM UMA PEGUNTA DO AJUDA DRM
-ELE VER MAIS DETALHES! */
-export default function PerguntaClicada(){
-    // na url, vai ser passado o id da pergunta, aq ele vai pegar esse id, para puxar a pergunta correta
-    const { id } = useParams()
-    const [pergunta, setPergunta] = useState([])
-    // acima ele guarda as infos da pergunta
-    const [respostas, setRespostas] = useState([])
-    // suas respostas
-    const [carregando, setCarregando] = useState(false)
-    // e para ter controle do carregamento
 
-    // aq ele vai puxar todos do dados, para serem exibidos
+export default function PerguntaClicada(){
+    const { id } = useParams()
+    const [pergunta, setPergunta] = useState({})
+    const [respostas, setRespostas] = useState([])
+    const [carregando, setCarregando] = useState(false)
+    const [idPostReport, setIdPostReport] = useState('')
+    const [motivoReport, setMotivoReport] = useState('')
+    const [modalReport, setModalReport] = useState(false)
+
     async function carregarDados() {
         setCarregando(true)
-        // aq ele puxa somente a pergunta
+        
         const resPergunta = await supabase
-        .from("posts")
-        .select('*')
-        .eq('id', id)
-        .single()
+            .from("posts")
+            .select('*')
+            .eq('id', id)
+            .single()
 
-        //aq ele puxa todas as respostas dessa pergunta
         const resRespostas = await supabase
-        .from("post_respostas")
-        .select('*')
-        .eq("id_post", id)
+            .from("post_respostas")
+            .select('*')
+            .eq("id_post", id)
 
         if(resPergunta.error) return console.error(resPergunta.error.message);
         if(resRespostas.error) return console.error(resRespostas.error.message);
-        // se nao der error, ele atualiza os estados, com os novos dados
+        
         setPergunta(resPergunta.data)
         setRespostas(resRespostas.data)
         setCarregando(false)
     }
 
+    async function report() {
+        if(motivoReport == ""){
+            alert("digite o motivo!")
+            return
+        }
+        const { data: { user }, error } = await supabase.auth.getUser()
+        const res = await supabase
+            .from("reports")
+            .insert({
+            id_post_report: idPostReport,
+            id_user: user.id,
+            motivo: motivoReport
+        })
+        if(res.error){
+            alert("algo deu errado " + res.error.message)
+        } else{
+            alert("obrigado por sua contribuição!")
+            setIdPostReport("")
+            setModalReport(false)
+            setMotivoReport("")
+            localStorage.setItem(`block_${idPostReport}`, idPostReport)
+            window.location.reload()
+        }
+    }
+
+    useEffect(() =>{
+        if (modalReport) {
+        const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth
+        document.body.style.overflow = 'hidden'
+        document.body.style.paddingRight = `${scrollBarWidth}px`
+        }
+        return () => {
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        }
+    }, [modalReport])
+
     useEffect(() =>{
         carregarDados()
-    }, []) // quando novas respostas sugirem, ele atualiza
+    }, [id])
 
-    // aq ele joga os dados em seus devido componentes
     return(
-        <div className="pergunta-tudo">
-            <div className="pergunta">
-                <PerguntaDetalhada user={pergunta.user} user_avatar={pergunta.avatar} descricao={pergunta.description} img={pergunta.imagens}/>
+        <>
+            <NavBar />
+            <div className="feed-detalhado">
+                <div className="feed-container">
+                    {/* POST PRINCIPAL */}
+                    <div className="post-principal">
+                        {carregando ? (
+                            <p>Carregando...</p>
+                        ) : (
+                            <PerguntaDetalhada 
+                                user={pergunta.user} 
+                                user_avatar={pergunta.avatar} 
+                                descricao={pergunta.description} 
+                                img={pergunta.imagens}
+                                titulo={pergunta.titulo}
+                                curtidas={pergunta.curtidas}
+                                idp={pergunta.id}
+                                modalReport={setModalReport}
+                                fdp={setIdPostReport}
+                            />
+                        )}
+                    </div>
+
+                    {/* RESPOSTAS */}
+                    <div className="secao-respostas">
+                        <RespostasPergunta 
+                            respostas={respostas} 
+                            funcaoDeAtualizar={carregarDados} 
+                            id={id}
+                        />
+                    </div>
+                </div>
             </div>
-            <div className="respostas">
-                <RespostasPergunta respostas={respostas} funcaoDeAtualizar={carregarDados} id={id}/>
+
+            {modalReport && (
+            <div className="modalReport">
+                <div className="prinReport">
+                <h1>Descreva sua Denuncia</h1>
+                <textarea className="input-motivo" onChange={(e) => setMotivoReport(e.target.value)}></textarea> <br />
+                <button onClick={() => report()}>Enviar</button> <br />
+                <button onClick={() => setModalReport(false)}>voltar</button> <br />
+                </div>
             </div>
-        </div>
+            )}
+        </>
     )
 }

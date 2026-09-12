@@ -225,8 +225,8 @@ export default function Home(){
 
         {modalReport && (
           <div className="modalReport">
-            <h1>Descreva sua Denuncia</h1>
             <div className="prinReport">
+              <h1>Descreva sua Denuncia</h1>
               <textarea className="input-motivo" onChange={(e) => setMotivoReport(e.target.value)}></textarea> <br />
               <button onClick={() => report()}>Enviar</button> <br />
               <button onClick={() => setModalReport(false)}>voltar</button> <br />
