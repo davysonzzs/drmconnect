@@ -97,7 +97,6 @@ export default function RespostasPergunta({ respostas, funcaoDeAtualizar, id }){
                                 />
                                 <div className="resposta-user-info">
                                     <span className="resposta-username">{resposta.user_responde}</span>
-                                    <span className="resposta-time">Há alguns minutos</span>
                                 </div>
                             </div>
                             <p className="resposta-texto">{resposta.description}</p>

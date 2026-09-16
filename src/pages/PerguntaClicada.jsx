@@ -98,6 +98,7 @@ export default function PerguntaClicada(){
                                 idp={pergunta.id}
                                 modalReport={setModalReport}
                                 fdp={setIdPostReport}
+                                create={pergunta.create_at}
                             />
                         )}
                     </div>
