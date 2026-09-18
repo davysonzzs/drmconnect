@@ -2,7 +2,6 @@ import Descricao from "./elements/Descricao";
 import Titulo from "./elements/Titulo";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
-import '../../styles/postCard.css'
 
 export default function PostComunidade({ user, titulo, conteudo, imgs, avatar }){
     return(

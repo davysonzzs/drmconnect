@@ -7,10 +7,10 @@ export default function RespostasVisor({ respostas }){
             <div className="resposta-item">
                 <div className="user-info">
                     <img src={item.user_avatar} />
-                    <p><span>{item.user_nome}</span></p>
+                    <p><span>{item.user_responde}</span></p>
                 </div>
                 <div className="resposta-conteudo">
-                    <p><span>{item.descricao}</span></p>
+                    <p><span>{item.description}</span></p>
                 </div>
             </div>
         ))}

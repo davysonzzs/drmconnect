@@ -1,13 +1,15 @@
 import { useEffect, useState, useRef, use } from "react";
 import { supabase } from "../supabase/supabase";
 import { envImagensStorage } from "../services/uploadImages";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import iconImagem from "./../assets/iconImagem.png"
 import "./../styles/home.css"
 import { buscarImagem } from "../services/sercheAvatar";
 import PostComunidade from "../components/PostComunidade";
-import PostRespostas from "../components/PostRespostas";
+import AcoesPost from "../components/AcoesPost";
 import Sidebar from "../layout/Sidebar"
+import Navbar from "../layout/Navbar";
+import { ChevronLeft } from 'lucide-react';
 
 /* ESSA É A PAGINA DE COMUNIDADE */
 export default function Home(){
@@ -190,7 +192,7 @@ export default function Home(){
 
   return(
     <div className='tudo-comunidade'>
-      <Sidebar />
+      <Navbar />
 
       <div className="posts">
         <div className="form-post">
@@ -210,8 +212,12 @@ export default function Home(){
         {posts.map((item, index) =>(
           <div key={index} className="perguntas-home">
             <div className="postContainer">
+              <Link 
+              to={`/feed/${item.id}`}
+              key={item.id}>
               <PostComunidade user={item.user} titulo={item.titulo} conteudo={item.description} imgs={item.imagens} avatar={item.avatar}/> <br />
-              <PostRespostas id={item.id} curtida={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
+              </Link>
+              <AcoesPost idP={item.id} quantidadeDeCurtidas={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
             </div> 
           </div>
         ))}
@@ -220,11 +226,11 @@ export default function Home(){
 
         {modalReport && (
           <div className="modalReport">
-            <h1>Descreva sua Denuncia</h1>
             <div className="prinReport">
+              <button id="reportbtn" onClick={() => setModalReport(false)}><ChevronLeft /></button> <br />
+              <h1>Descreva sua Denuncia</h1>
               <textarea className="input-motivo" onChange={(e) => setMotivoReport(e.target.value)}></textarea> <br />
-              <button onClick={() => report()}>Enviar</button> <br />
-              <button onClick={() => setModalReport(false)}>voltar</button> <br />
+              <button onClick={() => report()}>Enviar</button>
             </div>
           </div>
         )}
