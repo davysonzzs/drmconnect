@@ -183,7 +183,6 @@
 
 .modalReport h1 {
   color: var(--purple-300);
-  position: absolute;
   top: 20px;
   font-size: 16px;
   font-weight: 600;
@@ -201,8 +200,7 @@
 /* Textarea da denúncia */
 .prinReport > textarea {
   width: 100%;
-  margin: 24px 0;
-  padding: 10px;
+  margin: 15px 0;
   border: 1px solid var(--purple-800);
   border-radius: 4px;
   background-color: var(--purple-950);
@@ -234,6 +232,11 @@
   font-size: 13px;
   transition: background 0.2s ease;
   margin: 6px 4px;
+}
+
+#reportbtn{
+  background: none;
+  padding: 0;
 }
 
 .prinReport > button:hover {

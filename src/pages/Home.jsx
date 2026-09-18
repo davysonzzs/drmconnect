@@ -9,6 +9,7 @@ import PostComunidade from "../components/PostComunidade";
 import AcoesPost from "../components/AcoesPost";
 import Sidebar from "../layout/Sidebar"
 import Navbar from "../layout/Navbar";
+import { ChevronLeft } from 'lucide-react';
 
 /* ESSA É A PAGINA DE COMUNIDADE */
 export default function Home(){
@@ -226,10 +227,10 @@ export default function Home(){
         {modalReport && (
           <div className="modalReport">
             <div className="prinReport">
+              <button id="reportbtn" onClick={() => setModalReport(false)}><ChevronLeft /></button> <br />
               <h1>Descreva sua Denuncia</h1>
               <textarea className="input-motivo" onChange={(e) => setMotivoReport(e.target.value)}></textarea> <br />
-              <button onClick={() => report()}>Enviar</button> <br />
-              <button onClick={() => setModalReport(false)}>voltar</button> <br />
+              <button onClick={() => report()}>Enviar</button>
             </div>
           </div>
         )}
