@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase/supabase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { envImagensStorage } from "../services/uploadImages";
-import { ImageUp } from 'lucide-react';
-import Sidebar from "../layout/Sidebar"
+import { ImageUp, FileText, Heart, Trash2, ExternalLink } from 'lucide-react';
+import Navbar from "../layout/Navbar";
 import { CornerDownLeft } from 'lucide-react';
 import "../styles/perfil.css"
+
+const LIMITE_SOBRE_MIM = 300
+const SERIES = ["1º Ano", "2º Ano", "3º Ano"]
+
 /* ESSA É A PAGINA PARA USUARIO EDITAR SEU PERFIL */
 export default function PaginaDeUsuario(){
     const irPara = useNavigate()
@@ -15,7 +19,17 @@ export default function PaginaDeUsuario(){
     const [ urlImg, setUrlImg ] = useState(null)
     // antes de mudar, o sistema mostra como são sua foto e nome, aq ele guada isso para mudar dps
     const [ img, setImg ] = useState(null)
-    // quando enviar um nova imagem, ele vai guarda aqui  
+    // quando enviar um nova imagem, ele vai guarda aqui
+    const [ serie, setSerie ] = useState("")
+    const [ sobreMim, setSobreMim ] = useState("")
+    // acima, serie e sobre mim, ambos ficam no metadata do usuario (user_metadata)
+    const [ posts, setPosts ] = useState([])
+    // acima, os posts que o usuario ja fez (lista da aba atividade)
+    const [ confirmandoId, setConfirmandoId ] = useState(null)
+    // acima, id do post que esta pedindo confirmacao para excluir
+    const [ saindoId, setSaindoId ] = useState(null)
+    // acima, id do post que acabou de ser excluido (so para a animacao de sumir)
+    const totalCurtidas = posts.reduce((soma, p) => soma + (p.curtidas || 0), 0)
 
     useEffect(() => {
         // aqui ele vai buscar o usuario que guadar suas infos para exibir
@@ -29,14 +43,27 @@ export default function PaginaDeUsuario(){
             setNome(nomeDeUsuario)
             const avatar = user.user_metadata?.avatar_url
             setUrlImg(avatar)
-            
+            setSerie(user.user_metadata?.serie || "")
+            setSobreMim(user.user_metadata?.sobre_mim || "")
+
+            // busca os posts do usuario, do mais recente para o mais antigo
+            const { data: meusPosts, error: erroPosts } = await supabase
+                .from("posts")
+                .select("id, description, imagens, curtidas, create_at")
+                .eq("id_user", user.id)
+                .order("create_at", { ascending: false })
+            if(erroPosts){
+                console.error(erroPosts)
+            }else{
+                setPosts(meusPosts)
+            }
         }
         buscarUser()
     }, [])
     // função para mudar o nome de usuario
     async function editar() {
         const res = await supabase.auth.updateUser({
-            data: { full_name: nome }
+            data: { full_name: nome, serie: serie, sobre_mim: sobreMim }
         })
         if(res.error){
             alert("mudaça n funcionou")
@@ -59,20 +86,112 @@ export default function PaginaDeUsuario(){
             }
         } 
     }
+    // função para excluir um post do proprio usuario
+    async function excluirPost(id) {
+        // .select() devolve as linhas apagadas, se vier vazio o banco (RLS) n deixou apagar
+        const { data, error } = await supabase.from("posts").delete().eq("id", id).select()
+        if(error || !data || data.length === 0){
+            alert("não foi possível excluir o post")
+            return
+        }
+        setConfirmandoId(null)
+        setSaindoId(id)
+        // espera a animação de sumir antes de tirar da lista
+        setTimeout(() => setPosts(anteriores => anteriores.filter(p => p.id !== id)), 300)
+    }
     return(
         <div className="container-perfil">
-            <Sidebar />
-            <div className="vizualizar-perfil">
-                <img src={urlImg} id="imagem-do-perfil"/>
-                <h3><span>{nome}</span></h3>
-                <button onClick={() => setMudarNome(true)}>Editar</button>    
+            <Navbar />
+            <div className="perfil-conteudo">
+                <section className="perfil-card perfil-topo">
+                    {urlImg
+                        ? <img src={urlImg} id="imagem-do-perfil" alt="Foto de perfil" />
+                        : <div id="imagem-do-perfil" className="avatar-vazio">{nome.charAt(0).toUpperCase()}</div>}
+                    <div className="perfil-info">
+                        <div className="perfil-nome">
+                            <h3><span>{nome}</span></h3>
+                            {serie && <span className="perfil-serie">{serie}</span>}
+                        </div>
+                        <button onClick={() => setMudarNome(true)}>Editar</button>
+                    </div>
+                    <div className="perfil-stats">
+                        <div className="perfil-posts">
+                            <strong>{posts.length}</strong>
+                            <span>{posts.length === 1 ? "POST" : "POSTS"}</span>
+                        </div>
+                        <div className="perfil-posts">
+                            <strong>{totalCurtidas}</strong>
+                            <span>CURTIDAS</span>
+                        </div>
+                    </div>
+                </section>
+
+                <div className="perfil-colunas">
+                    <aside className="perfil-card perfil-sobre">
+                        <h2><FileText size={18} /> Sobre mim</h2>
+                        <p>{sobreMim || "Nada por aqui ainda. Clique em Editar para escrever algo sobre você."}</p>
+                    </aside>
+
+                    <section className="perfil-atividade">
+                        <h2>Atividade <span className="contador-aba">{posts.length}</span></h2>
+                        {posts.length === 0 && (
+                            <div className="ativ-vazia">
+                                <h3>Você ainda não publicou nada</h3>
+                                <p>Os posts que você fizer aparecem aqui, e você pode excluir quando quiser.</p>
+                                <button onClick={() => irPara("/home")}>Escrever um post</button>
+                            </div>
+                        )}
+                        {posts.map(item => (
+                            <div key={item.id} className={`ativ-slot${saindoId === item.id ? " saindo" : ""}${confirmandoId === item.id ? " confirmando" : ""}`}>
+                                <div className="ativ-dentro">
+                                    <article className="ativ-post">
+                                        <div className="ativ-corpo">
+                                            <div>
+                                                <span className="ativ-data">{new Date(item.create_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}</span>
+                                                <p>{item.description}</p>
+                                            </div>
+                                            {item.imagens && <img className="ativ-thumb" src={item.imagens} alt="" />}
+                                        </div>
+                                        <div className="ativ-rodape">
+                                            <span className="ativ-meta"><Heart size={14} /> {item.curtidas || 0}</span>
+                                            {confirmandoId === item.id ? (
+                                                <div className="ativ-acoes">
+                                                    <span>Excluir este post?</span>
+                                                    <button className="ativ-btn" onClick={() => setConfirmandoId(null)}>Cancelar</button>
+                                                    <button className="ativ-btn ativ-confirmar" onClick={() => excluirPost(item.id)}>Excluir</button>
+                                                </div>
+                                            ) : (
+                                                <div className="ativ-acoes">
+                                                    <Link className="ativ-btn" to={`/feed/${item.id}`}><ExternalLink size={14} /> Ver post</Link>
+                                                    <button className="ativ-btn ativ-excluir" onClick={() => setConfirmandoId(item.id)}><Trash2 size={14} /> Excluir</button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+                </div>
             </div>
+
             {mudarNome && (
                 <div className="edicao-de-perfil">
                     <div className="prin">
                     <label htmlFor="imagem-envio" style={{cursor: "pointer"}}><ImageUp /><br />Escolher Foto De Perfil</label>
                     <input id="imagem-envio" type="file" accept="image/png,image/jpeg" onChange={e => setImg(e.target.files[0])} style={{display: "none"}}/> <br />
                     <input type="text" value={nome} onChange={e => setNome(e.target.value)}/> <br />
+                    <select value={serie} onChange={e => setSerie(e.target.value)}>
+                        <option value="">Selecione sua série</option>
+                        {SERIES.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select> <br />
+                    <textarea
+                        maxLength={LIMITE_SOBRE_MIM}
+                        value={sobreMim}
+                        onChange={e => setSobreMim(e.target.value)}
+                        placeholder="Escreva um pouco sobre você"
+                    ></textarea>
+                    <span className="contador">{sobreMim.length}/{LIMITE_SOBRE_MIM}</span> <br />
                     <button onClick={() => editar()}>Alterar</button> <br/>
                     <button onClick={() => setMudarNome(false)} style={{margin: "10px"}}><CornerDownLeft /></button>
                     </div>
