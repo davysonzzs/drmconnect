@@ -489,7 +489,7 @@
     grid-template-columns: minmax(0, 740px) 320px; /* 740 = 700 de conteúdo + 20px de padding de cada lado do .posts */
     justify-content: center;
     align-items: start;
-    gap: 2rem;
+    gap: 7rem;
 }
 
 /* O padding do .posts entra na conta da coluna, senão o feed vaza para cima das notícias */
@@ -501,6 +501,8 @@
 /* Alinha o topo das notícias com o topo do form de post (o .posts tem 16px de padding-top) */
 .home-layout > .feed-noticias {
     margin-top: 16px;
+    position: sticky;
+    top: 90px;
 }
 
 /* Tablet e mobile: feed em coluna única; no mobile as notícias viram aba separada */
