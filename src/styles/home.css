@@ -480,3 +480,38 @@
     margin-top: 12px;
   }
 }
+
+/*para o noticias e feed ficatem lado a lado*/
+/* ===== Layout lado a lado: feed + notícias ===== */
+
+.home-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 740px) 320px; /* 740 = 700 de conteúdo + 20px de padding de cada lado do .posts */
+    justify-content: center;
+    align-items: start;
+    gap: 7rem;
+}
+
+/* O padding do .posts entra na conta da coluna, senão o feed vaza para cima das notícias */
+.home-layout > .posts {
+    box-sizing: border-box;
+    max-width: 740px;
+}
+
+/* Alinha o topo das notícias com o topo do form de post (o .posts tem 16px de padding-top) */
+.home-layout > .feed-noticias {
+    margin-top: 16px;
+    position: sticky;
+    top: 90px;
+}
+
+/* Tablet e mobile: feed em coluna única; no mobile as notícias viram aba separada */
+@media (max-width: 1024px) {
+    .home-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-layout > .feed-noticias {
+        display: none;
+    }
+}
