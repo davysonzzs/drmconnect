@@ -1,89 +1,393 @@
 .container-perfil {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    background:url("./../assets/background/backgroundPerfil.png")
-}
-
-.vizualizar-perfil{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100vw;
-    height: 100vh;
+    --perigo: #F0707F; /* unica cor fora da paleta roxa: so para excluir */
+    min-height: 100vh;
+    background: var(--purple-950);
     color: white;
 }
 
-#imagem-do-perfil{
-    border-radius: 250px;
-}
-
-.vizualizar-perfil > h3{
-    font-size: 28px;
-}
-
-.vizualizar-perfil > button{
-  background: #6c63ff;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-  margin: 10px 0;
-}
-
-.edicao-de-perfil{
-    position: absolute;
+/* padding-top maior para a navbar não cobrir o conteúdo (ajuste se a navbar não for fixa) */
+.perfil-conteudo {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.39);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 96px 16px 48px;
 }
 
-.prin{
-    text-align: center;
-    background-color: black;
-    border-radius: 30px;
-    padding: 50px;
-    margin: 10px;
-    animation: op 0.2s ease-in;
+.perfil-card {
+    background: var(--purple-900);
+    border: 1px solid var(--purple-800);
+    border-radius: 16px;
+    padding: 24px;
 }
 
-.prin > input{
-    margin: 31px;
-    padding: 15px 15px;
-    border: white;
-    border-radius: 10px;
-    width: 350px;
-    background-color: #060f1e;
-    transition: 0.2s;
+/* ---------- topo: foto, nome, serie e posts ---------- */
+.perfil-topo {
+    display: flex;
+    align-items: center;
+    gap: 24px;
 }
 
-.prin > input:hover{
-    transform: scale(1.05);
-    box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.493);
+#imagem-do-perfil{
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--purple-400);
 }
 
-.prin > input:focus{
-    transform: scale(1.05);
-    border: 0 none;
-    outline: 0;
-    box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.493);
+.avatar-vazio{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--purple-700);
+    font-size: 48px;
+    font-weight: bold;
 }
 
+.perfil-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.perfil-nome{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.perfil-nome > h3{
+    font-size: 28px;
+    overflow-wrap: anywhere;
+}
+
+.perfil-serie{
+    background: var(--purple-800);
+    color: var(--purple-300);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+}
+
+.perfil-info > button,
 .prin > button{
-    background: #6c63ff;
+    background: var(--purple-600);
     color: white;
     border: none;
     padding: 10px 16px;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.2s;
+}
+
+.perfil-info > button:hover,
+.prin > button:hover{
+    background: var(--purple-500);
+}
+
+.perfil-stats{
+    display: flex;
+    gap: 24px;
+    padding-left: 24px;
+    border-left: 1px solid var(--purple-800);
+}
+
+.perfil-posts{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil-posts > strong{
+    font-size: 28px;
+    color: var(--purple-400);
+}
+
+.perfil-posts > span{
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--purple-300);
+}
+
+/* ---------- sobre mim ---------- */
+.perfil-sobre > h2{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    color: var(--purple-300);
+    margin-bottom: 12px;
+}
+
+.perfil-sobre > p{
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- duas colunas: sobre mim + atividade ---------- */
+.perfil-colunas{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.perfil-sobre{
+    position: sticky;
+    top: 16px;
+}
+
+.perfil-atividade{
+    min-width: 0;
+}
+
+.perfil-atividade > h2{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    color: var(--purple-300);
+}
+
+.contador-aba{
+    background: var(--purple-800);
+    color: var(--purple-100);
+    border-radius: 999px;
+    padding: 0 8px;
+    font-size: 12px;
+}
+
+/* cada post: linha sem fundo (como o feed da Home); o slot anima o sumiço ao excluir */
+.ativ-slot{
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
+}
+
+.ativ-slot.saindo{
+    grid-template-rows: 0fr;
+    opacity: 0;
+}
+
+.ativ-dentro{
+    min-height: 0;
+    overflow: hidden;
+}
+
+.ativ-post{
+    padding: 20px 4px 16px 14px;
+    border-bottom: 1px solid var(--purple-800);
+    border-left: 3px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.ativ-slot.confirmando .ativ-post{
+    border-left-color: var(--perigo);
+}
+
+.ativ-corpo{
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.ativ-data{
+    font-size: 13px;
+    color: var(--purple-300);
+}
+
+.ativ-corpo p{
+    margin-top: 4px;
+    max-width: 62ch;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ativ-thumb{
+    width: 96px;
+    height: 72px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--purple-800);
+}
+
+.ativ-rodape{
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    min-height: 36px;
+    margin-top: 12px;
+}
+
+.ativ-meta{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--purple-300);
+}
+
+.ativ-acoes{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    font-size: 14px;
+}
+
+.ativ-btn{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: var(--purple-300);
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ativ-btn:hover{
+    color: white;
+    background: var(--purple-900);
+}
+
+.ativ-btn.ativ-excluir:hover{
+    color: var(--perigo);
+}
+
+.ativ-btn.ativ-confirmar{
+    background: var(--perigo);
+    color: var(--purple-950);
+    font-weight: bold;
+}
+
+.ativ-btn.ativ-confirmar:hover{
+    opacity: 0.85;
+}
+
+.ativ-vazia{
+    text-align: center;
+    padding: 56px 16px;
+}
+
+.ativ-vazia > h3{
+    font-size: 18px;
+}
+
+.ativ-vazia > p{
+    margin: 6px 0 18px;
+    color: var(--purple-300);
+}
+
+.ativ-vazia > button{
+    background: var(--purple-600);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ativ-vazia > button:hover{
+    background: var(--purple-500);
+}
+
+/* ---------- modal de edição ---------- */
+.edicao-de-perfil{
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* fundo escurecido: cor sólida + opacity, sem rgba */
+.edicao-de-perfil::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--purple-950);
+    opacity: 0.8;
+}
+
+.prin{
+    position: relative;
+    text-align: center;
+    background-color: var(--purple-900);
+    border: 1px solid var(--purple-800);
+    border-radius: 30px;
+    padding: 40px;
+    margin: 10px;
+    max-width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    animation: op 0.2s ease-in;
+}
+
+.prin > label{
+    color: var(--purple-300);
+}
+
+.prin > input,
+.prin > select,
+.prin > textarea{
+    margin: 12px 0;
+    padding: 15px;
+    border: 1px solid var(--purple-800);
+    border-radius: 10px;
+    width: 350px;
+    max-width: 100%;
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    background-color: var(--purple-950);
+    transition: 0.2s;
+}
+
+.prin > textarea{
+    height: 120px;
+    resize: none;
+}
+
+.prin > input:hover,
+.prin > select:hover,
+.prin > textarea:hover{
+    border-color: var(--purple-700);
+}
+
+.prin > input:focus,
+.prin > select:focus,
+.prin > textarea:focus{
+    outline: 0;
+    border-color: var(--purple-400);
+}
+
+.contador{
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: var(--purple-300);
 }
 
 @keyframes op{
@@ -93,5 +397,53 @@
     }
     100%{
         opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .prin{
+        animation: none;
+    }
+
+    .ativ-slot, .ativ-post{
+        transition: none;
+    }
+}
+
+/* ---------- mobile ---------- */
+@media (max-width: 600px){
+    .perfil-topo{
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .perfil-info{
+        align-items: center;
+    }
+
+    .perfil-nome{
+        justify-content: center;
+    }
+
+    .perfil-stats{
+        padding-left: 0;
+        border-left: none;
+    }
+
+    .perfil-colunas{
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-sobre{
+        position: static;
+    }
+
+    .ativ-thumb{
+        width: 72px;
+        height: 56px;
+    }
+
+    .prin{
+        padding: 24px;
     }
 }
