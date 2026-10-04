@@ -6,7 +6,7 @@ import { ImageUp, FileText, Heart, Trash2, ExternalLink } from 'lucide-react';
 import Navbar from "../layout/Navbar";
 import { CornerDownLeft } from 'lucide-react';
 import "../styles/perfil.css"
-
+// variveis para ultilzar no codigo (textarea e select)
 const LIMITE_SOBRE_MIM = 300
 const SERIES = ["1º Ano", "2º Ano", "3º Ano"]
 
@@ -140,7 +140,7 @@ export default function PaginaDeUsuario(){
     }
     // enquanto busca os dados, mostra so a navbar (evita piscar textos de "vazio")
     if(carregando){
-        return <div className="container-perfil"><Navbar /></div>
+        return <div className="container-perfil"><Navbar /> <span style={{"display": "flex", "justifyContent":"center", "textAlign": "center"}}>carregando...</span></div>
     }
     // id da url n existe
     if(naoEncontrado){
