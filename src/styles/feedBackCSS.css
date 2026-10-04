@@ -13,7 +13,7 @@
 .estrela-label4,
 .estrela-label5 {
   font-size: 50px;
-  color: #ccc;
+  color: var(--purple-700);
   cursor: pointer;
   transition: color 0.2s ease, transform 0.1s ease;
   display: inline-block;
@@ -47,34 +47,34 @@
 
 .estrela-checkbox:checked + .estrela-label1 {
   color: red;
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+  text-shadow: 0 0 10px currentColor;
 }
 
 .estrela-checkbox:checked + .estrela-label2 {
   color: orange;
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+  text-shadow: 0 0 10px currentColor;
 }
 
 .estrela-checkbox:checked + .estrela-label3 {
   color: yellow;
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+  text-shadow: 0 0 10px currentColor;
 }
 
 .estrela-checkbox:checked + .estrela-label4 {
   color: rgb(99, 208, 93);
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+  text-shadow: 0 0 10px currentColor;
 }
 
 .estrela-checkbox:checked + .estrela-label5 {
   color: green;
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+  text-shadow: 0 0 10px currentColor;
 }
 
 .container-feedback {
-  display: flex;
   width: 100vw;
   height: 100vh;
-  background: url("./../assets/background/backgroundFeedback.png");
+  background: var(--purple-950);
+  color: white;
 }
 
 #estrela:hover{
@@ -87,7 +87,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 150px;
+  margin-top: 50px;
 }
 
 .titulo{
@@ -105,20 +105,27 @@
 .inputsFeedback input {
   padding: 15px 15px;
   width: 390px;
-  border: white;
+  border: 1px solid var(--purple-800);
   border-radius: 10px;
-  background-color: #060f1e;
+  background-color: var(--purple-950);
+  color: white;
   outline: none;
+}
+
+/* como o outline é removido, o foco aparece na cor da borda */
+.inputsFeedback input:focus,
+.inputsFeedback textarea:focus{
+  border-color: var(--purple-400);
 }
 
 .inputsFeedback textarea{
   width:390px; 
   height:200px;
   padding: 10px 30px;
-  background-color: #060f1e;
-  border: none;
+  background-color: var(--purple-950);
+  color: white;
+  border: 1px solid var(--purple-800);
   resize: none;
-  box-shadow: 2px 4px 10px #ffffff33;
   outline: none;
 }
 
@@ -138,11 +145,11 @@
 .cardFeedback{
   display: flex;
   justify-content: center;
-  border: 3px solid #000b1f;
-  box-shadow: 2px 4px 10px #ffffff33; 
+  border: 3px solid var(--purple-800);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--purple-600) 25%, transparent);
   border-radius: 10px;
   flex-direction: column;
-  background-color: #000b27;
+  background-color: var(--purple-900);
   padding: 0;
   width: 50rem;
 }
@@ -178,10 +185,10 @@
 
 .icon{
   padding: 14px;
-  border: 3px solid #2d7077;
+  border: 3px solid var(--purple-600);
   border-radius: 50%;
   margin-right: 20px;
-  background: linear-gradient(0.25turn, #00205f, #00122c 75%);
+  background: linear-gradient(0.25turn, var(--purple-800), var(--purple-900) 75%);
 }
 
 .enviarFeedback button{
@@ -191,19 +198,20 @@
   justify-content: center;
   gap: 15px;
   cursor: pointer;
-  background: linear-gradient(0.25turn, #7c3aed, #06b6d4);
+  background: linear-gradient(0.25turn, var(--purple-600), var(--purple-500));
+  color: white;
   margin: 5px 0;
   transition: background-color 0.7s ease, transform 0.5s ease;
 }
 
 .enviarFeedback button:hover{
-  background: linear-gradient(0.25turn, #7034d6, #059bb6);
+  background: linear-gradient(0.25turn, var(--purple-700), var(--purple-600));
   transform: translateY(-3px);
 }
 
 .experienciaUsuario{
   display: flex;
-  border: 3px solid white;
+  border: 3px solid var(--purple-700);
   border-radius: 5px;
   width: 25rem;
   align-items: center;
