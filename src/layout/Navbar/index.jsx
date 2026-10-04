@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, MessageSquare } from "lucide-react";
+import { Home, MessageSquare, Newspaper } from "lucide-react";
 import { buscarImagem } from "../../services/sercheAvatar";
 import logo from '../../assets/logo/logo-icone.png'
 import "./navbar.css";
@@ -39,6 +39,17 @@ export default function Navbar() {
             >
             <Home size={18} />
             <span>Início</span>
+            </Link>
+
+            {/* so aparece em tablet e mobile (no desktop as noticias ficam na Home) */}
+            <Link
+            to="/noticias"
+            className={`navbar-link navbar-link-noticias ${isActive("/noticias") ? "active" : ""}`}
+            aria-label="Notícias"
+            title="Notícias"
+            >
+            <Newspaper size={18} />
+            <span>Notícias</span>
             </Link>
 
             <Link

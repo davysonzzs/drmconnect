@@ -11,6 +11,7 @@ import ResetSenha from "./pages/ResetSenha";
 import PerguntaClicada from "./pages/PerguntaClicada";
 import Inicial from "./pages/Inicial";
 import TermosDeUso from "./pages/TermosDeUso";
+import PaginaNoticias from "./pages/PaginaNoticias";
 
 export default function App(){
   const [user, setUser] = useState(null);
@@ -90,6 +91,11 @@ export default function App(){
         <Route path="/perfil/:id" element={
           <PrivateRoute user={user} loading={loading}>
             <PaginaDeUsuario />
+          </PrivateRoute>
+        }/>
+        <Route path="/noticias" element={
+          <PrivateRoute user={user} loading={loading}>
+            <PaginaNoticias />
           </PrivateRoute>
         }/>
       </Routes>
