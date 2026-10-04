@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase/supabase";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, Link, useParams, replace } from "react-router-dom";
 import { envImagensStorage } from "../services/uploadImages";
-import { ImageUp, FileText, Heart, Trash2, ExternalLink } from 'lucide-react';
+import { ImageUp, FileText, Heart, Trash2, ExternalLink, LogOut } from 'lucide-react';
 import Navbar from "../layout/Navbar";
 import { CornerDownLeft } from 'lucide-react';
 import "../styles/perfil.css"
@@ -138,6 +138,15 @@ export default function PaginaDeUsuario(){
         // espera a animação de sumir antes de tirar da lista
         setTimeout(() => setPosts(anteriores => anteriores.filter(p => p.id !== id)), 300)
     }
+
+    async function sair() {
+        const { error } = await supabase.auth.signOut()
+        if(error){
+            alert("Algo deu errado, tente novamnete")
+            return
+        }
+        irPara("/", {replace: true})
+    }
     // enquanto busca os dados, mostra so a navbar (evita piscar textos de "vazio")
     if(carregando){
         return <div className="container-perfil"><Navbar /> <span style={{"display": "flex", "justifyContent":"center", "textAlign": "center"}}>carregando...</span></div>
@@ -170,7 +179,12 @@ export default function PaginaDeUsuario(){
                             <h3><span>{nome}</span></h3>
                             {serie && <span className="perfil-serie">{serie}</span>}
                         </div>
-                        {ehMeuPerfil && <button onClick={() => setMudarNome(true)}>Editar</button>}
+                        {ehMeuPerfil && (
+                            <div className="perfil-botoes">
+                                <button onClick={() => setMudarNome(true)} className="">Editar</button>
+                                <button className="perfil-sair" onClick={sair}><LogOut size={14} /> Sair</button>
+                            </div>
+                        )}
                     </div>
                     <div className="perfil-stats">
                         <div className="perfil-posts">
