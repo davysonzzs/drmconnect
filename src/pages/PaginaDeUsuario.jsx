@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase/supabase";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { envImagensStorage } from "../services/uploadImages";
 import { ImageUp, FileText, Heart, Trash2, ExternalLink } from 'lucide-react';
 import Navbar from "../layout/Navbar";
@@ -10,9 +10,15 @@ import "../styles/perfil.css"
 const LIMITE_SOBRE_MIM = 300
 const SERIES = ["1º Ano", "2º Ano", "3º Ano"]
 
-/* ESSA É A PAGINA PARA USUARIO EDITAR SEU PERFIL */
+/* ESSA É A PAGINA DE PERFIL: o proprio usuario edita (/home/seuUser), outros usuarios so visualizam (/perfil/:id) */
 export default function PaginaDeUsuario(){
     const irPara = useNavigate()
+    const { id } = useParams()
+    // acima, id do usuario da url (/perfil/:id), se n tiver id, é o perfil do proprio usuario
+    const ehMeuPerfil = !id
+    const [ carregando, setCarregando ] = useState(true)
+    const [ naoEncontrado, setNaoEncontrado ] = useState(false)
+    // acima, carregando = enquanto busca os dados, naoEncontrado = quando o id da url n existe
     const [ mudarNome, setMudarNome ] = useState(false)
     // acima, quando o usuario quiser mudar seu perfil, ele se torna true, se n, false
     const [ nome, setNome ] = useState("")
@@ -34,32 +40,65 @@ export default function PaginaDeUsuario(){
     useEffect(() => {
         // aqui ele vai buscar o usuario que guadar suas infos para exibir
         async function buscarUser(){
+            setCarregando(true)
+            setNaoEncontrado(false)
             const { data: { user }, error } = await supabase.auth.getUser()
             if(error){
                 alert("algo deu errado, tente novamente mais tarde!")
+                setCarregando(false)
                 return
             }
-            const nomeDeUsuario = user.user_metadata?.full_name || ""
-            setNome(nomeDeUsuario)
-            const avatar = user.user_metadata?.avatar_url
-            setUrlImg(avatar)
-            setSerie(user.user_metadata?.serie || "")
-            setSobreMim(user.user_metadata?.sobre_mim || "")
+            // dono dos dados exibidos: o proprio usuario ou o usuario da url
+            let idDoDono = user.id
+            if(id){
+                // se o id da url for o do proprio usuario, ele vai para a pagina onde pode editar
+                if(id === user.id){
+                    irPara("/home/seuUser", { replace: true })
+                    return
+                }
+                idDoDono = id
+                // o metadata de outro usuario n é acessivel, ent ele le da tabela profiles
+                const { data: perfil, error: erroPerfil } = await supabase
+                    .from("profiles")
+                    .select("nome, avatar_url, serie, sobre_mim")
+                    .eq("id", id)
+                    .maybeSingle()
+                if(erroPerfil){
+                    console.error(erroPerfil)
+                }
+                if(erroPerfil || !perfil){
+                    setNaoEncontrado(true)
+                    setCarregando(false)
+                    return
+                }
+                setNome(perfil.nome || "")
+                setUrlImg(perfil.avatar_url)
+                setSerie(perfil.serie || "")
+                setSobreMim(perfil.sobre_mim || "")
+            }else{
+                const nomeDeUsuario = user.user_metadata?.full_name || ""
+                setNome(nomeDeUsuario)
+                const avatar = user.user_metadata?.avatar_url
+                setUrlImg(avatar)
+                setSerie(user.user_metadata?.serie || "")
+                setSobreMim(user.user_metadata?.sobre_mim || "")
+            }
 
-            // busca os posts do usuario, do mais recente para o mais antigo
+            // busca os posts do dono do perfil, do mais recente para o mais antigo
             const { data: meusPosts, error: erroPosts } = await supabase
                 .from("posts")
                 .select("id, description, imagens, curtidas, create_at")
-                .eq("id_user", user.id)
+                .eq("id_user", idDoDono)
                 .order("create_at", { ascending: false })
             if(erroPosts){
                 console.error(erroPosts)
             }else{
                 setPosts(meusPosts)
             }
+            setCarregando(false)
         }
         buscarUser()
-    }, [])
+    }, [id])
     // função para mudar o nome de usuario
     async function editar() {
         const res = await supabase.auth.updateUser({
@@ -99,6 +138,25 @@ export default function PaginaDeUsuario(){
         // espera a animação de sumir antes de tirar da lista
         setTimeout(() => setPosts(anteriores => anteriores.filter(p => p.id !== id)), 300)
     }
+    // enquanto busca os dados, mostra so a navbar (evita piscar textos de "vazio")
+    if(carregando){
+        return <div className="container-perfil"><Navbar /></div>
+    }
+    // id da url n existe
+    if(naoEncontrado){
+        return(
+            <div className="container-perfil">
+                <Navbar />
+                <div className="perfil-conteudo">
+                    <section className="perfil-card ativ-vazia">
+                        <h3>Perfil não encontrado</h3>
+                        <p>Esse usuário não existe ou foi removido.</p>
+                        <button onClick={() => irPara("/home")}>Voltar para o início</button>
+                    </section>
+                </div>
+            </div>
+        )
+    }
     return(
         <div className="container-perfil">
             <Navbar />
@@ -112,7 +170,7 @@ export default function PaginaDeUsuario(){
                             <h3><span>{nome}</span></h3>
                             {serie && <span className="perfil-serie">{serie}</span>}
                         </div>
-                        <button onClick={() => setMudarNome(true)}>Editar</button>
+                        {ehMeuPerfil && <button onClick={() => setMudarNome(true)}>Editar</button>}
                     </div>
                     <div className="perfil-stats">
                         <div className="perfil-posts">
@@ -129,16 +187,16 @@ export default function PaginaDeUsuario(){
                 <div className="perfil-colunas">
                     <aside className="perfil-card perfil-sobre">
                         <h2><FileText size={18} /> Sobre mim</h2>
-                        <p>{sobreMim || "Nada por aqui ainda. Clique em Editar para escrever algo sobre você."}</p>
+                        <p>{sobreMim || (ehMeuPerfil ? "Nada por aqui ainda. Clique em Editar para escrever algo sobre você." : "Esse usuário ainda não escreveu nada.")}</p>
                     </aside>
 
                     <section className="perfil-atividade">
                         <h2>Atividade <span className="contador-aba">{posts.length}</span></h2>
                         {posts.length === 0 && (
                             <div className="ativ-vazia">
-                                <h3>Você ainda não publicou nada</h3>
-                                <p>Os posts que você fizer aparecem aqui, e você pode excluir quando quiser.</p>
-                                <button onClick={() => irPara("/home")}>Escrever um post</button>
+                                <h3>{ehMeuPerfil ? "Você ainda não publicou nada" : "Esse usuário ainda não publicou nada"}</h3>
+                                {ehMeuPerfil && <p>Os posts que você fizer aparecem aqui, e você pode excluir quando quiser.</p>}
+                                {ehMeuPerfil && <button onClick={() => irPara("/home")}>Escrever um post</button>}
                             </div>
                         )}
                         {posts.map(item => (
@@ -163,7 +221,7 @@ export default function PaginaDeUsuario(){
                                             ) : (
                                                 <div className="ativ-acoes">
                                                     <Link className="ativ-btn" to={`/feed/${item.id}`}><ExternalLink size={14} /> Ver post</Link>
-                                                    <button className="ativ-btn ativ-excluir" onClick={() => setConfirmandoId(item.id)}><Trash2 size={14} /> Excluir</button>
+                                                    {ehMeuPerfil && <button className="ativ-btn ativ-excluir" onClick={() => setConfirmandoId(item.id)}><Trash2 size={14} /> Excluir</button>}
                                                 </div>
                                             )}
                                         </div>

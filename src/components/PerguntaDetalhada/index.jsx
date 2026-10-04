@@ -1,18 +1,22 @@
 import AcoesPost from "../AcoesPost"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-export default function PerguntaDetalhada({ user, user_avatar, descricao, img, titulo, curtidas, idp, modalReport, fdp, create }){
+export default function PerguntaDetalhada({ user, user_avatar, descricao, img, titulo, curtidas, idp, modalReport, fdp, create, idUser }){
+    const irPara = useNavigate()
     const [ texto, setTexto ] = useState(create)
     const data = texto?.slice(0,10)
     const hora = texto?.slice(11, 16)
+    // foto e nome do autor levam para o perfil dele (so se tiver o id do autor)
+    const clique = idUser ? { onClick: () => irPara(`/perfil/${idUser}`), style: { cursor: "pointer" } } : {}
 
     return(
         <div className="post-detalhado">
             {/* HEADER - User Info */}
             <div className="post-header">
-                <img src={user_avatar} alt={user} className="avatar" />
+                <img src={user_avatar} alt={user} className="avatar" {...clique} />
                 <div className="user-info">
-                    <span className="username">{user}</span>
+                    <span className="username" {...clique}>{user}</span>
                     <span className="time">{data} as {hora}</span>
                 </div>
             </div>

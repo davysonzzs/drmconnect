@@ -87,6 +87,11 @@ export default function App(){
             <PerguntaClicada />
           </PrivateRoute>
         }/>
+        <Route path="/perfil/:id" element={
+          <PrivateRoute user={user} loading={loading}>
+            <PaginaDeUsuario />
+          </PrivateRoute>
+        }/>
       </Routes>
     </BrowserRouter>
   )

@@ -216,7 +216,7 @@ export default function Home(){
                 <Link 
                 to={`/feed/${item.id}`}
                 key={item.id}>
-                <PostComunidade user={item.user} titulo={item.titulo} conteudo={item.description} imgs={item.imagens} avatar={item.avatar}/> <br />
+                <PostComunidade user={item.user} titulo={item.titulo} conteudo={item.description} imgs={item.imagens} avatar={item.avatar} idUser={item.id_user}/> <br />
                 </Link>
                 <AcoesPost idP={item.id} quantidadeDeCurtidas={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
               </div> 

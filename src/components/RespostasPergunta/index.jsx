@@ -1,11 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "../../supabase/supabase";
 import { Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function RespostasPergunta({ respostas, funcaoDeAtualizar, id }){
+    const irPara = useNavigate()
     const [novaResposta, setNovaResposta] = useState("")
     const [enviando, setEnviando] = useState(false)
     const textareaRef = useRef(null)
+
+    // foto e nome de quem respondeu levam para o perfil (respostas antigas n tem id_user, ent n ficam clicaveis)
+    const clique = (idUser) => idUser ? { onClick: () => irPara(`/perfil/${idUser}`), style: { cursor: "pointer" } } : {}
 
     async function enviarResposta() {
         if(!novaResposta.trim()) {
@@ -33,7 +38,8 @@ export default function RespostasPergunta({ respostas, funcaoDeAtualizar, id }){
                     id_post: id,
                     user_responde: usuarioNome,
                     description: novaResposta,
-                    user_avatar: avatar
+                    user_avatar: avatar,
+                    id_user: user.id
                 })
                 .select()
 
@@ -94,9 +100,10 @@ export default function RespostasPergunta({ respostas, funcaoDeAtualizar, id }){
                                     src={resposta.user_avatar || "https://via.placeholder.com/36"} 
                                     alt={resposta.user_responde}
                                     className="resposta-avatar"
+                                    {...clique(resposta.id_user)}
                                 />
                                 <div className="resposta-user-info">
-                                    <span className="resposta-username">{resposta.user_responde}</span>
+                                    <span className="resposta-username" {...clique(resposta.id_user)}>{resposta.user_responde}</span>
                                 </div>
                             </div>
                             <p className="resposta-texto">{resposta.description}</p>
