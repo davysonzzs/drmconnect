@@ -9,10 +9,9 @@ import PaginaDeUsuario from "./pages/PaginaDeUsuario";
 import FeedBack from "./pages/FeedBack";
 import ResetSenha from "./pages/ResetSenha";
 import PerguntaClicada from "./pages/PerguntaClicada";
-import AjudaDrm from "./pages/AjudaDrm";
-import CriarPergunta from "./pages/CriarPergunta";
 import Inicial from "./pages/Inicial";
 import TermosDeUso from "./pages/TermosDeUso";
+import PaginaNoticias from "./pages/PaginaNoticias";
 
 export default function App(){
   const [user, setUser] = useState(null);
@@ -83,20 +82,20 @@ export default function App(){
           <PrivateRoute user={user} loading={loading}>
             <FeedBack />
           </PrivateRoute>
-        }/>
-        <Route path="/perguntas" element={
-          <PrivateRoute user={user} loading={loading}>
-            <AjudaDrm />
-          </PrivateRoute>
-        }/>
-        <Route path="/criarpergunta" element={
-          <PrivateRoute user={user} loading={loading}>
-            <CriarPergunta />
-          </PrivateRoute>
-        } />        
-        <Route path="/perguntas/:id" element={
+        }/>     
+        <Route path="/feed/:id" element={
           <PrivateRoute user={user} loading={loading}>
             <PerguntaClicada />
+          </PrivateRoute>
+        }/>
+        <Route path="/perfil/:id" element={
+          <PrivateRoute user={user} loading={loading}>
+            <PaginaDeUsuario />
+          </PrivateRoute>
+        }/>
+        <Route path="/noticias" element={
+          <PrivateRoute user={user} loading={loading}>
+            <PaginaNoticias />
           </PrivateRoute>
         }/>
       </Routes>

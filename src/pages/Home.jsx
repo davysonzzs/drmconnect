@@ -1,13 +1,17 @@
 import { useEffect, useState, useRef, use } from "react";
 import { supabase } from "../supabase/supabase";
 import { envImagensStorage } from "../services/uploadImages";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import iconImagem from "./../assets/iconImagem.png"
 import "./../styles/home.css"
 import { buscarImagem } from "../services/sercheAvatar";
 import PostComunidade from "../components/PostComunidade";
-import PostRespostas from "../components/PostRespostas";
+import AcoesPost from "../components/AcoesPost";
 import Sidebar from "../layout/Sidebar"
+import Navbar from "../layout/Navbar";
+import { ChevronLeft } from 'lucide-react';
+import Noticias from "../layout/Noticias";
+import useMediaQuery, { TELA_SEM_COLUNA_NOTICIAS } from "../components/hooks/useMediaQuery";
 
 /* ESSA É A PAGINA DE COMUNIDADE */
 export default function Home(){
@@ -35,6 +39,7 @@ export default function Home(){
   temMais = se tiver mais post que ainda n foram vistos, ele fica true, se não, false
   */
   const irPara = useNavigate()
+  const telaPequena = useMediaQuery(TELA_SEM_COLUNA_NOTICIAS)
 
    async function buscarPosts(estaPagina){
     setCarregamento(true)
@@ -190,52 +195,60 @@ export default function Home(){
 
   return(
     <div className='tudo-comunidade'>
-      <Sidebar />
-
-      <div className="posts">
-        <div className="form-post">
-          <div className="form-text">
-            <img src={fotoDoPerfil} />
-            <textarea maxLength={200} ref={textareaRef} value={descricao} onChange={e => setDescricao(e.target.value)} placeholder="O que você está pensando hoje?" ></textarea>
-          </div>
-
-          <div className="form-envio">
-            <input type="file" accept="image/png,image/jpeg" onChange={e => setImg(e.target.files[0])} id="input-file" style={{display: "none"}}/>
-            <label htmlFor="input-file"><img src={iconImagem} alt="Icon de imagem" style={{width: "30px", height: "30px", cursor: "pointer"}}/></label>  
-            <button onClick={criarPost}>postar</button>
-          </div>
-
-        </div>
-
-        {posts.map((item, index) =>(
-          <div key={index} className="perguntas-home">
-            <div className="postContainer">
-              <PostComunidade user={item.user} titulo={item.titulo} conteudo={item.description} imgs={item.imagens} avatar={item.avatar}/> <br />
-              <PostRespostas id={item.id} curtida={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
-            </div> 
-          </div>
-        ))}
-
-        {carregamento && <p>Carregando posts...</p>}
-
-        {modalReport && (
-          <div className="modalReport">
-            <h1>Descreva sua Denuncia</h1>
-            <div className="prinReport">
-              <textarea className="input-motivo" onChange={(e) => setMotivoReport(e.target.value)}></textarea> <br />
-              <button onClick={() => report()}>Enviar</button> <br />
-              <button onClick={() => setModalReport(false)}>voltar</button> <br />
+      <Navbar />
+      <div className="home-layout">
+        <div className="posts">
+          <div className="form-post">
+            <div className="form-text">
+              <img src={fotoDoPerfil} />
+              <textarea maxLength={200} ref={textareaRef} value={descricao} onChange={e => setDescricao(e.target.value)} placeholder="O que você está pensando hoje?" ></textarea>
             </div>
+
+            <div className="form-envio">
+              <input type="file" accept="image/png,image/jpeg" onChange={e => setImg(e.target.files[0])} id="input-file" style={{display: "none"}}/>
+              <label htmlFor="input-file"><img src={iconImagem} alt="Icon de imagem" style={{width: "30px", height: "30px", cursor: "pointer"}}/></label>  
+              <button onClick={criarPost}>postar</button>
+            </div>
+
           </div>
-        )}
 
-        {temMais && !carregamento && (
-          <button onClick={verMais} style={{ cursor: 'pointer' }}>
-            Carregar mais
-          </button>
-        )}
+          {posts.map((item, index) =>(
+            <div key={index} className="perguntas-home">
+              <div className="postContainer">
+                <Link 
+                to={`/feed/${item.id}`}
+                key={item.id}>
+                <PostComunidade user={item.user} titulo={item.titulo} conteudo={item.description} imgs={item.imagens} avatar={item.avatar} idUser={item.id_user}/> <br />
+                </Link>
+                <AcoesPost idP={item.id} quantidadeDeCurtidas={item.curtidas} modalReport={setModalReport} funcaoDeEnviarId={setIdPostReport}/>
+              </div> 
+            </div>
+          ))}
 
-        {!temMais && <p style={{ color: 'gray' }}></p>}
+          {carregamento && <p>Carregando posts...</p>}
+
+          {modalReport && (
+            <div className="modalReport">
+              <div className="prinReport">
+                <button id="reportbtn" onClick={() => setModalReport(false)}><ChevronLeft /></button> <br />
+                <h1>Descreva sua Denuncia</h1>
+                <textarea className="input-motivo" onChange={(e) => setMotivoReport(e.target.value)}></textarea> <br />
+                <button onClick={() => report()}>Enviar</button>
+              </div>
+            </div>
+          )}
+
+          {temMais && !carregamento && (
+            <button onClick={verMais} style={{ cursor: 'pointer' }}>
+              Carregar mais
+            </button>
+          )}
+
+          {!temMais && <p style={{ color: 'gray' }}></p>}
+        </div>
+        
+        {!telaPequena && <Noticias />}
+        
       </div>
     </div>
   )

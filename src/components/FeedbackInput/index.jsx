@@ -42,8 +42,8 @@ export default function FeedbackInput(){
       <svg width="0" height="0">
         <defs>
           <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#7c3aed" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#8A3DC5" />
+            <stop offset="100%" stopColor="#4A2571" />
           </linearGradient>
         </defs>
       </svg>

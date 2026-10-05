@@ -1,11 +1,12 @@
 import FeedbackInput from "../components/FeedbackInput"
-import Sidebar from "../layout/Sidebar"
+import Navbar from "../layout/Navbar"
+
 /* PAGINA DE FEEDBACKS */
 export default function FeedBack(){
     // no componente tem a explicação
     return(
         <div className="container-feedback">
-        <Sidebar />
+        <Navbar />
         <FeedbackInput />
         </div>
     )

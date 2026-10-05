@@ -1,17 +1,25 @@
+@import url("variaveis-css.css");
+
+/* ============================================
+   DRMConnect — Seções Únicas (Refatoração de Paleta)
+   Depende de variaveis-cores.css
+   Fundo preto sólido (--purple-950) + acentos vivos (--purple-500/400/300)
+   Regra: só variáveis CSS, zero rgba — transparência via `opacity` no elemento
+   Performance: só Responder tem 1 animação (transform+opacity)
+   ============================================ */
 
 .section-perguntar {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* gap: 80px; */
     align-items: center;
     padding: 150px 150px;
-    background: linear-gradient(135deg, #050922 0%, #0b0a3a 50%, #070B59 100%);
+    background: var(--purple-950);
     color: white;
     overflow: hidden;
 }
 
-
+/* Padrão de linhas diagonais — estático */
 .section-perguntar::before {
     content: "";
     position: absolute;
@@ -19,17 +27,19 @@
     right: -10%;
     width: 700px;
     height: 700px;
-    background: 
+    background:
         repeating-linear-gradient(
             45deg,
-            rgba(120, 80, 255, 0.08),
-            rgba(120, 80, 255, 0.08) 1px,
+            var(--purple-500),
+            var(--purple-500) 1px,
             transparent 1px,
             transparent 30px
         );
+    opacity: 0.08;
     z-index: 1;
 }
 
+/* Glow único, estático */
 .section-perguntar::after {
     content: "";
     position: absolute;
@@ -37,8 +47,9 @@
     right: -200px;
     width: 800px;
     height: 800px;
-    background: radial-gradient(circle, rgba(152, 60, 255, 0.2), transparent 70%);
+    background: radial-gradient(circle, var(--purple-400), transparent 70%);
     filter: blur(100px);
+    opacity: 0.2;
     z-index: 1;
 }
 
@@ -51,7 +62,7 @@
     font-size: 52px;
     font-weight: 800;
     line-height: 1.1;
-    background: linear-gradient(90deg, #9500ff 0%, #7800ff 50%, #6b00ff 100%);
+    background: linear-gradient(90deg, var(--purple-500) 0%, var(--purple-400) 50%, var(--purple-300) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0 0 20px 0;
@@ -63,14 +74,14 @@
     display: block;
     width: 80px;
     height: 4px;
-    background: linear-gradient(90deg, #9500ff, transparent);
+    background: linear-gradient(90deg, var(--purple-400), transparent);
     margin-top: 15px;
     border-radius: 2px;
 }
 
 .section-perguntar .section-texto p:first-of-type {
     font-size: 22px;
-    color: #9500ff;
+    color: var(--purple-400);
     font-weight: 600;
     margin: 20px 0 0 0;
 }
@@ -78,7 +89,7 @@
 .section-perguntar .section-texto p:last-of-type {
     font-size: 16px;
     line-height: 1.8;
-    color: rgba(207, 233, 255, 0.8);
+    color: var(--color-text-secondary);
     max-width: 480px;
     margin: 15px 0 0 0;
 }
@@ -87,8 +98,8 @@
     position: relative;
     z-index: 2;
     min-height: 520px;
-    background: rgba(8, 18, 31, 0.5);
-    border: 2px solid transparent;
+    background: var(--purple-900);
+    border: 2px solid var(--purple-700);
     border-radius: 20px;
     padding: 30px;
     overflow: hidden;
@@ -99,11 +110,11 @@
     position: absolute;
     inset: 0;
     padding: 1px;
-    background: linear-gradient(45deg, transparent 30%, rgba(200, 100, 255, 0.1) 50%, transparent 70%);
-    border: 2px solid rgba(200, 100, 255, 0.3);
+    background: linear-gradient(45deg, transparent 30%, var(--purple-500) 50%, transparent 70%);
+    opacity: 0.15;
     border-radius: 20px;
     z-index: -1;
-} 
+}
 
 .section-responder {
     position: relative;
@@ -112,7 +123,7 @@
     gap: 80px;
     align-items: center;
     padding: 150px 50px;
-    background: linear-gradient(135deg, #070B59 0%, #0b0d4a 50%, #050922 100%);
+    background: var(--purple-950);
     color: white;
     overflow: hidden;
 }
@@ -121,6 +132,7 @@
     order: -1;
 }
 
+/* Única animação da seção — transform + opacity */
 .section-responder::before {
     content: "";
     position: absolute;
@@ -128,12 +140,14 @@
     left: -100px;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(112, 11, 255, 0.25), transparent 70%);
+    background: radial-gradient(circle, var(--purple-500), transparent 70%);
     filter: blur(80px);
+    opacity: 0.25;
     animation: pulseCircle 6s ease-in-out infinite;
     z-index: 1;
 }
 
+/* Glow secundário — estático */
 .section-responder::after {
     content: "";
     position: absolute;
@@ -141,20 +155,20 @@
     right: -100px;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(200, 100, 255, 0.2), transparent 70%);
+    background: radial-gradient(circle, var(--purple-400), transparent 70%);
     filter: blur(70px);
-    animation: pulseCircle 8s ease-in-out infinite;
+    opacity: 0.2;
     z-index: 1;
 }
 
 @keyframes pulseCircle {
     0%, 100% {
         transform: scale(1);
-        opacity: 0.5;
+        opacity: 0.25;
     }
     50% {
         transform: scale(1.1);
-        opacity: 0.8;
+        opacity: 0.45;
     }
 }
 
@@ -167,36 +181,27 @@
     font-size: 52px;
     font-weight: 800;
     line-height: 1.1;
-    background: linear-gradient(90deg, #c864ff 0%, #7800ff 50%, #b500ff 100%);
+    background: linear-gradient(90deg, var(--purple-500) 0%, var(--purple-400) 50%, var(--purple-300) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0 0 20px 0;
     letter-spacing: -1px;
 }
 
+/* Ícone estático */
 .section-responder .section-texto h2::before {
     content: "◉";
     display: inline-block;
     margin-right: 12px;
     font-size: 40px;
-    background: linear-gradient(90deg, #c864ff, #7800ff);
+    background: linear-gradient(90deg, var(--purple-500), var(--purple-400));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: floatBall 3s ease-in-out infinite;
-}
-
-@keyframes floatBall {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
 }
 
 .section-responder .section-texto p:first-of-type {
     font-size: 22px;
-    color: #c864ff;
+    color: var(--purple-400);
     font-weight: 600;
     margin: 20px 0 0 0;
 }
@@ -204,7 +209,7 @@
 .section-responder .section-texto p:last-of-type {
     font-size: 16px;
     line-height: 1.8;
-    color: rgba(207, 233, 255, 0.8);
+    color: var(--color-text-secondary);
     max-width: 480px;
     margin: 15px 0 0 0;
 }
@@ -213,11 +218,11 @@
     position: relative;
     z-index: 2;
     min-height: 520px;
-    background: rgba(112, 11, 255, 0.08);
-    border: 2px solid rgba(200, 100, 255, 0.3);
+    background: var(--purple-900);
+    border: 2px solid var(--purple-500);
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 0 30px rgba(200, 100, 255, 0.2);
+    box-shadow: 0 0 30px var(--purple-600);
 }
 
 .section-responder .section-mockup::before {
@@ -225,7 +230,8 @@
     position: absolute;
     inset: 0;
     border-radius: 20px;
-    background: linear-gradient(45deg, transparent 30%, rgba(200, 100, 255, 0.1) 50%, transparent 70%);
+    background: linear-gradient(45deg, transparent 30%, var(--purple-500) 50%, transparent 70%);
+    opacity: 0.15;
     z-index: 1;
 }
 
@@ -236,11 +242,12 @@
     gap: 80px;
     align-items: center;
     padding: 150px 50px;
-    background: linear-gradient(135deg, #050922 0%, #070B59 30%, #0b0d4a 60%, #08121f 100%);
+    background: var(--purple-950);
     color: white;
     overflow: hidden;
 }
 
+/* Glows estáticos */
 .section-aprender::before {
     content: "";
     position: absolute;
@@ -248,11 +255,11 @@
     left: -20%;
     width: 800px;
     height: 800px;
-    background: 
-        radial-gradient(circle at 30% 50%, rgba(0, 187, 255, 0.1), transparent 50%),
-        radial-gradient(circle at 70% 50%, rgba(200, 100, 255, 0.1), transparent 50%);
+    background:
+        radial-gradient(circle at 30% 50%, var(--purple-500), transparent 50%),
+        radial-gradient(circle at 70% 50%, var(--purple-400), transparent 50%);
     filter: blur(80px);
-    animation: waveFlow 8s ease-in-out infinite;
+    opacity: 0.15;
     z-index: 1;
 }
 
@@ -263,19 +270,10 @@
     right: -15%;
     width: 700px;
     height: 700px;
-    background: radial-gradient(circle, rgba(0, 97, 200, 0.2), transparent 70%);
+    background: radial-gradient(circle, var(--purple-400), transparent 70%);
     filter: blur(90px);
-    animation: waveFlow 10s ease-in-out infinite;
+    opacity: 0.2;
     z-index: 1;
-}
-
-@keyframes waveFlow {
-    0%, 100% {
-        transform: translateY(0px) scale(1);
-    }
-    50% {
-        transform: translateY(30px) scale(1.05);
-    }
 }
 
 .section-aprender .section-texto {
@@ -287,30 +285,16 @@
     font-size: 52px;
     font-weight: 800;
     line-height: 1.1;
-    background: linear-gradient(90deg, #00bbff 0%, #0061c8 35%, #b500ff 70%, #00bbff 100%);
-    background-size: 200% 200%;
-    animation: gradientShift 8s ease infinite;
+    background: linear-gradient(90deg, var(--purple-500) 0%, var(--purple-400) 50%, var(--purple-300) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0 0 20px 0;
     letter-spacing: -1px;
 }
 
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
 .section-aprender .section-texto p:first-of-type {
     font-size: 22px;
-    background: linear-gradient(90deg, #00bbff, #c864ff);
+    background: linear-gradient(90deg, var(--purple-500), var(--purple-400));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 600;
@@ -320,7 +304,7 @@
 .section-aprender .section-texto p:last-of-type {
     font-size: 16px;
     line-height: 1.8;
-    color: rgba(207, 233, 255, 0.8);
+    color: var(--color-text-secondary);
     max-width: 480px;
     margin: 15px 0 0 0;
 }
@@ -329,11 +313,9 @@
     position: relative;
     z-index: 2;
     min-height: 520px;
-    background: 
-        linear-gradient(135deg, rgba(0, 187, 255, 0.05), rgba(200, 100, 255, 0.05)),
-        rgba(8, 18, 31, 0.4);
+    background: var(--purple-900);
     border: 2px solid;
-    border-image: linear-gradient(135deg, #00bbff, #0061c8, #b500ff) 1;
+    border-image: linear-gradient(135deg, var(--purple-500), var(--purple-400), var(--purple-300)) 1;
     border-radius: 20px;
     padding: 30px;
     backdrop-filter: blur(10px);
@@ -343,8 +325,8 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: 
-        linear-gradient(45deg, transparent 30%, rgba(0, 187, 255, 0.1) 50%, transparent 70%);
+    background: linear-gradient(45deg, transparent 30%, var(--purple-400) 50%, transparent 70%);
+    opacity: 0.15;
     border-radius: 20px;
     z-index: 1;
 }
@@ -358,17 +340,17 @@
         gap: 50px;
         padding: 100px 30px;
     }
-    
+
     .section-responder > .section-mockup {
         order: 1;
     }
-    
+
     .section-perguntar .section-texto h2,
     .section-responder .section-texto h2,
     .section-aprender .section-texto h2 {
         font-size: 38px;
     }
-    
+
     .section-perguntar .section-mockup,
     .section-responder .section-mockup,
     .section-aprender .section-mockup {
@@ -382,19 +364,19 @@
     .section-aprender {
         padding: 80px 20px;
     }
-    
+
     .section-perguntar .section-texto h2,
     .section-responder .section-texto h2,
     .section-aprender .section-texto h2 {
         font-size: 28px;
     }
-    
+
     .section-perguntar .section-texto p:first-of-type,
     .section-responder .section-texto p:first-of-type,
     .section-aprender .section-texto p:first-of-type {
         font-size: 18px;
     }
-    
+
     .section-perguntar .section-texto p:last-of-type,
     .section-responder .section-texto p:last-of-type,
     .section-aprender .section-texto p:last-of-type {
@@ -402,6 +384,12 @@
     }
 }
 
+/* Reduz movimento pra quem prefere menos animação */
+@media (prefers-reduced-motion: reduce) {
+    .section-responder::before {
+        animation: none;
+    }
+}
 
 .section-perguntar::bottom,
 .section-responder::bottom,
@@ -412,5 +400,5 @@
     left: 50px;
     right: 50px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 187, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, var(--purple-500), transparent);
 }

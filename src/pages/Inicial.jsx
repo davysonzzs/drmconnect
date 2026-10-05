@@ -59,7 +59,7 @@ export default function  Inicial(){
             </nav>
             <header className="hero-novo">
                 <div className="apresentacao">
-                    <div className="titulo">
+                    <div className="titulos">
                         <h1>DRM <span>Connect</span></h1>
                     </div>
                     <div className="textos">
@@ -106,11 +106,8 @@ export default function  Inicial(){
                 </marquee>        
             </div>
             <SectionPerguntar />
-            <hr />
             <SectionResponder />
-            <hr />
             <SectionAprender />
-            <hr />
             <Footer/>
         </div>
     )
