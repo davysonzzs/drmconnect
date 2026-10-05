@@ -16,6 +16,11 @@ export default function FeedbackInput(){
     const irPara = useNavigate()
 
     async function enviar(){
+      if(!titulo.trim() && !descricao.trim()){
+        alert("descreva seu feedback com titulo e descrição!")
+        return
+      }
+
         const res = await supabase
         .from("feedbacks")
         .insert({

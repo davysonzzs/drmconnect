@@ -73,6 +73,7 @@ export default function Cadastro(){
                 </div>
             </div>
             <div className="contaAlt">
+                <p><span className="avisoGoogle">Não é possivel entrar/cadastrar (pelo google) com email instituicional</span></p>
                 <button  onClick={() => handleOAuthLogin("google")}>
                     <img src={GoogleIcon} alt="icone do google" />
                 </button>

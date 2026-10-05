@@ -87,7 +87,7 @@ export default function Home(){
   }
 // função para criar post
   async function criarPost() {
-    if(descricao == ""){
+    if(!descricao.trim()){
       alert("escreva algo")
       return
     }

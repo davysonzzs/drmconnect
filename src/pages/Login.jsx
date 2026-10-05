@@ -79,7 +79,7 @@ export default function Login(){
                 </div>
             </div>
             <div className="contaAlt">
-                <p><span className="avisoGoogle">Não é possivel entrar/cadastrar com email instituicional</span></p>
+                <p><span className="avisoGoogle">Não é possivel entrar/cadastrar (pelo google) com email instituicional</span></p>
                 <button onClick={handleOAuthLogin}><img src={GoogleIcon} alt="foto do google" /></button>
             </div>
         </div>
