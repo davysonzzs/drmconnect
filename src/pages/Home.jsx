@@ -87,10 +87,7 @@ export default function Home(){
   }
 // função para criar post
   async function criarPost() {
-    //regex para saber se tem conteudo no post (letras, numeros, simbolos, não so espaços)
-    const temConteudo = /\S/.test(descricao)
-
-    if(descricao == "" || !temConteudo ){
+    if(!descricao.trim()){
       alert("escreva algo")
       return
     }
