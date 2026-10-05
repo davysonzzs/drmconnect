@@ -76,7 +76,7 @@
     font-size: 14px;
 }
 
-.perfil-info > button,
+.perfil-botoes > button,
 .prin > button{
     background: var(--purple-600);
     color: white;
@@ -87,9 +87,30 @@
     transition: 0.2s;
 }
 
-.perfil-info > button:hover,
+.perfil-botoes > button:hover,
 .prin > button:hover{
     background: var(--purple-500);
+}
+
+.perfil-botoes{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Sair: botão secundário (só borda), para n competir com o Editar */
+.perfil-botoes > .perfil-sair{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--purple-700);
+    color: var(--purple-300);
+}
+
+.perfil-botoes > .perfil-sair:hover{
+    background: var(--purple-900);
+    color: white;
 }
 
 .perfil-stats{
@@ -422,6 +443,10 @@
     }
 
     .perfil-nome{
+        justify-content: center;
+    }
+
+    .perfil-botoes{
         justify-content: center;
     }
 

@@ -99,6 +99,17 @@
   flex-shrink: 0;
 }
 
+/* Link de Notícias: só aparece quando a coluna de notícias some da Home (mesmo ponto de corte do home.css) */
+.navbar-link-noticias {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .navbar-link-noticias {
+    display: flex;
+  }
+}
+
 /* Avatar */
 .navbar-avatar {
   width: 44px;

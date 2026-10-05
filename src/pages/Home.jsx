@@ -11,6 +11,7 @@ import Sidebar from "../layout/Sidebar"
 import Navbar from "../layout/Navbar";
 import { ChevronLeft } from 'lucide-react';
 import Noticias from "../layout/Noticias";
+import useMediaQuery, { TELA_SEM_COLUNA_NOTICIAS } from "../components/hooks/useMediaQuery";
 
 /* ESSA É A PAGINA DE COMUNIDADE */
 export default function Home(){
@@ -38,6 +39,7 @@ export default function Home(){
   temMais = se tiver mais post que ainda n foram vistos, ele fica true, se não, false
   */
   const irPara = useNavigate()
+  const telaPequena = useMediaQuery(TELA_SEM_COLUNA_NOTICIAS)
 
    async function buscarPosts(estaPagina){
     setCarregamento(true)
@@ -245,7 +247,7 @@ export default function Home(){
           {!temMais && <p style={{ color: 'gray' }}></p>}
         </div>
         
-          <Noticias />
+        {!telaPequena && <Noticias />}
         
       </div>
     </div>
