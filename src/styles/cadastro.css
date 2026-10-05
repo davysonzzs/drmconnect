@@ -1,38 +1,82 @@
+/* ===== CADASTRO: mesma identidade do Login (paleta roxa, sem imagem de fundo) ===== */
 .cadastro-tudo{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #15163F;
-    background-image: url("./../assets/background/backgroundCadastroLogin.png");
+    background-color: var(--purple-950);
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 }
 
+/* card do formulário */
 .form-cadastro{
     display: flex;
     flex-direction: column;
-    height: 360px;
+    margin: 10px;
     justify-content: center;
-    width: 320px;
-    margin: 0px 0 15px 0;
-    padding: 15px;
+    width: 300px;
+    padding: 25px;
     border-radius: 10px;
     text-align: center;
-    background-color: #0e0f2c;
+    background-color: var(--purple-900);
+}
+
+.informacoesCadastro{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+/* os <br> do JSX n são mais necessários, o gap ja separa os campos */
+.informacoesCadastro br{
+    display: none;
 }
 
 .informacoesCadastro input{
     padding: 15px 15px;
-    color: #ececec;
+    color: rgb(236, 236, 236);
     border: none;
     border-radius: 5px;
-    margin-bottom: 3px;
-    margin-bottom: 15px;
-    width: 290px;
-    background-color: #021536;
+    width: 280px;
+    background-color: var(--purple-950);
     font-size: 15px;
     font-family: 'poppins' , 'ubuntu' , sans-serif;
+}
+
+.informacoesCadastro input:focus{
+    outline: none;
+    box-shadow: 0 0 0 1px var(--purple-400);
+}
+
+/* termos, botão e link para o login */
+.botoesCadastro{
+    display: flex;
+    flex-direction: column;
+    margin: 25px 0px 0px 0px;
+    align-items: center;
+}
+
+.check-box-termos{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.check-box-termos input{
+    accent-color: var(--purple-500);
+    cursor: pointer;
+}
+
+.check-box-termos a{
+    color: var(--purple-300);
+}
+
+.check-box-termos a:hover{
+    color: var(--purple-200);
 }
 
 .cadastroBTT{
@@ -45,20 +89,19 @@
     border: white;
     border-radius: 5px;
     cursor: pointer;
-    background: linear-gradient(0.25turn, #7c3aed, #06b6d4);
+    background: linear-gradient(0.25turn, var(--purple-600), var(--purple-500));
+    color: white;
     margin: 5px 0;
     transition: background-color 0.7s ease, transform 0.5s ease;
-    font-family: "poppins", "ubuntu" ,  sans-serif;
+    font-family: 'poppins' , 'ubuntu' , sans-serif;
 }
 
-.informacoesCadastro input:focus{
-    outline: none;
-}
-
-.botoesCadastro{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* enquanto os termos n forem aceitos o botão fica apagado e sem efeito de hover */
+.cadastroBTT:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
 }
 
 .loginLink{
@@ -68,14 +111,74 @@
 }
 
 .loginLinkBTT{
-    background:none;
+    background: none;
     border: none;
     transform: none !important;
-    color: #0099ff;
+    color: var(--purple-300);
     box-shadow: none !important;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .loginLinkBTT:hover{
     cursor: pointer;
+    color: var(--purple-200);
+}
+
+/* ---- partes iguais às do Login.css (repetidas aqui para o Cadastro n depender do outro arquivo) ---- */
+.logoName{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 12px 6px 0;
+}
+
+.logoName img{
+    height: 75px;
+    width: revert-layer;
+    margin: 8px -10px 0 0px;
+}
+
+.logoName h1{
+    background: var(--purple-500);
+    background: linear-gradient(90deg, var(--purple-500) 0%, var(--purple-300) 30%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    height: 33px;
+    margin: 19px 0px 0px 6px;
+}
+
+.contaAlt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.contaAlt img{
+    height: 35px;
+    width: 35px;
+    border-radius: 10px;
+}
+
+.contaAlt button{
+    background: none;
+    border: none;
+}
+
+.contaAlt button:hover{
+    box-shadow: none !important;
+    transform: none !important;
+    cursor: pointer;
+}
+
+/* aviso pequeno embaixo do icone do google */
+.avisoGoogle{
+    max-width: 300px;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--purple-300);
 }
